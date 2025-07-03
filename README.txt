@@ -34,13 +34,26 @@ API RESTful construída em .NET 5 com arquitetura baseada em DDD para gerenciar 
   }
 
 2. Crie o banco de dados:
+Crie as tabelas: 
+  CREATE TABLE Livros (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Titulo NVARCHAR(255) NOT NULL,
+    Autor NVARCHAR(255) NOT NULL,
+    AnoPublicacao INT NOT NULL,
+    QuantidadeDisponivel INT NOT NULL
+);
 
-   a. dotnet ef migrations add InitialCreate
-    dotnet ef database update.
-   
-   Ou
-   
-   b. Coloquei o script para criação das tabelas no README.txt dentro do projeto.
+CREATE TABLE Emprestimos (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    LivroId INT NOT NULL,
+    DataEmprestimo DATETIME2 NOT NULL,
+    DataDevolucao DATETIME2 NULL,
+    Status NVARCHAR(20) NOT NULL,
+
+    CONSTRAINT FK_Emprestimos_Livros FOREIGN KEY (LivroId)
+        REFERENCES Livros(Id)
+        ON DELETE CASCADE
+);
 
 4. Execute a API:
 
